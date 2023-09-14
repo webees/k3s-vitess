@@ -97,6 +97,13 @@ spec:
           memory: 128Mi
       extraFlags:
         recovery-period-block-duration: 5s
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: vitess.vtorc
+                  operator: Exists
     partitionings:
     - equal:
         parts: 1
