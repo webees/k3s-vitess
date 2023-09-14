@@ -134,7 +134,7 @@ spec:
                 requiredDuringSchedulingIgnoredDuringExecution:
                   nodeSelectorTerms:
                     - matchExpressions:
-                        - key: vitess.vtadmin
+                        - key: vitess.vttablet
                           operator: Exists
   updateStrategy:
     type: Immediate
