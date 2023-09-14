@@ -6,35 +6,23 @@ wget https://github.com/vitessio/vitess/releases/download/v17.0.2/vitess-17.0.2-
 tar zxvf vitess-17.0.2-96ac0a6.tar.gz && cp vitess-17.0.2-96ac0a6/bin/vtctldclient /usr/local/bin/
 ```
 
-# Vitess Operator for Kubernetes
+# Vitess Operator
 ```shell
 git clone https://github.com/webees/k3s-vitess
 cd k3s-vitess
 
-#
-kubectl create namespace vitess
-
 # Install the Operator
+kubectl create namespace vitess
 kubectl apply -n vitess -f operator.yaml
+kubectl apply -n vitess -f init.yaml
 
-# Bring up an initial cluster
-cat 101_initial_cluster.yaml | sed -e 's/example/vitess/g' \
-                                   -e 's/http:\/\/localhost:14001/https:\/\/vitess.dev.run/g' \
-                             | kubectl apply -n vitess -f -
-
-# Apply schema and vschema
-vtctldclient ApplySchema --server=$(kubectl get svc -n vitess | grep vitess-vtctld | awk '{print $3}'):15999 --sql-file="create_commerce_schema.sql" commerce
-vtctldclient ApplyVSchema --server=$(kubectl get svc -n vitess | grep vitess-vtctld | awk '{print $3}'):15999 --vschema-file="vschema_commerce_initial.json" commerce
-
-#
+# Get Keyspaces
 vtctldclient GetKeyspaces --server=$(kubectl get svc -n vitess | grep vitess-vtctld | awk '{print $3}'):15999
 
-# Insert and verify data
+# Show databases
 mysql -h $(kubectl get svc -n vitess | grep vitess-vtgate | awk '{print $3}') -P 3306 -u vitess -pvitess -e "show databases"
-mysql -h $(kubectl get svc -n vitess  | grep zone1-vtgate | awk '{print $3}') -P 3306 -u vitess -pvitess --table < ../common/insert_commerce_data.sql
-mysql -h $(kubectl get svc -n vitess  | grep zone1-vtgate | awk '{print $3}') -P 3306 -u vitess -pvitess --table < ../common/select_commerce_data.sql
 
-# Down cluster
+# Delete
 kubectl delete -n vitess -f operator.yaml
-kubectl delete -n vitess -f 101_initial_cluster.yaml
+kubectl delete -n vitess -f initial_cluster.yaml
 ```
