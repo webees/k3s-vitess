@@ -7,7 +7,7 @@ spec:
     vtgate: vitess/lite:latest
   cells:
   - name: zone1
-    vtgate:
+    gateway:
       authentication:
         static:
           secret:
