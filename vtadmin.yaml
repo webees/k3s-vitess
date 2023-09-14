@@ -4,56 +4,9 @@ metadata:
   name: vitess
 spec:
   images:
-    vtctld: vitess/lite:latest
     vtadmin: vitess/vtadmin:latest
-    vtgate: vitess/lite:latest
-    vttablet: vitess/lite:latest
-    vtbackup: vitess/lite:latest
-    vtorc: vitess/lite:latest
-    mysqld:
-      mysql80Compatible: vitess/lite:latest
-    mysqldExporter: prom/mysqld-exporter:v0.11.0
   cells:
   - name: zone1
-    gateway:
-      authentication:
-        static:
-          secret:
-            name: vitess-cluster-config
-            key: users.json
-      replicas: 1
-      resources:
-        requests:
-          cpu: 100m
-          memory: 256Mi
-        limits:
-          memory: 256Mi
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: vitess.vtgate
-                    operator: Exists
-  vitessDashboard:
-    cells:
-    - zone1
-    extraFlags:
-      security_policy: read-only
-    replicas: 1
-    resources:
-      limits:
-        memory: 128Mi
-      requests:
-        cpu: 100m
-        memory: 128Mi
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: vitess.vtctld
-                  operator: Exists
   vtadmin:
     rbac:
       name: vitess-cluster-config
