@@ -16,6 +16,13 @@ spec:
   cells:
   - name: zone1
     gateway:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: vitess.vtgate
+                    operator: Exists
       authentication:
         static:
           secret:
@@ -28,14 +35,14 @@ spec:
           memory: 256Mi
         limits:
           memory: 256Mi
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: vitess.vtgate
-                    operator: Exists
   vitessDashboard:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: vitess.vtctld
+                  operator: Exists
     cells:
     - zone1
     extraFlags:
@@ -47,14 +54,14 @@ spec:
       requests:
         cpu: 100m
         memory: 128Mi
+  vtadmin:
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: vitess.vtctld
+                - key: vitess.vtadmin
                   operator: Exists
-  vtadmin:
     rbac:
       name: vitess-cluster-config
       key: rbac.yaml
@@ -76,16 +83,16 @@ spec:
       requests:
         cpu: 100m
         memory: 128Mi
+
+  keyspaces:
+  - name: default
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: vitess.vtadmin
+                - key: vitess.vttablet
                   operator: Exists
-
-  keyspaces:
-  - name: default
     durabilityPolicy: none
     turndownPolicy: Immediate
     vitessOrchestrator:
