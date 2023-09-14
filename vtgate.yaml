@@ -6,8 +6,8 @@ spec:
   images:
     vtgate: vitess/lite:latest
   cells:
-    - name: zone1
-    gateway:
+  - name: zone1
+    vtgate:
       authentication:
         static:
           secret:
