@@ -6111,6 +6111,13 @@ kind: Deployment
 metadata:
   name: vitess-operator
 spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: vitess.vtorc
+                operator: Exists
   replicas: 1
   selector:
     matchLabels:
