@@ -8,11 +8,11 @@ tar zxvf vitess-17.0.2-96ac0a6.tar.gz && cp vitess-17.0.2-96ac0a6/bin/vtctldclie
 
 # Vitess Operator for Kubernetes
 ```shell
-git clone https://github.com/vitessio/vitess
-cd vitess/examples/operator
+git clone https://github.com/webees/k3s-vitess
+cd k3s-vitess
 
 #
-kubectl create namespace vite
+kubectl create namespace vitess
 
 # Install the Operator
 kubectl apply -n vitess -f operator.yaml
