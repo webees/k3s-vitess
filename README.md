@@ -26,3 +26,7 @@ mysql -h $(kubectl get svc -n vitess | grep vitess-vtgate | awk '{print $3}') -P
 kubectl delete -n vitess -f operator.yaml
 kubectl delete -n vitess -f initial.yaml
 ```
+
+# Tag
+- vitess.operator
+- vitess.admin
