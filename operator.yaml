@@ -6158,7 +6158,7 @@ spec:
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
                   - matchExpressions:
-                      - key: vitess.vtorc
+                      - key: vitess.operator
                         operator: Exists
       priorityClassName: vitess-operator-control-plane
       serviceAccountName: vitess-operator
