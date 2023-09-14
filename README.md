@@ -29,4 +29,7 @@ kubectl delete -n vitess -f initial.yaml
 
 # Tag
 - vitess.operator
-- vitess.admin
+- vitess.vtadmin
+- vitess.vtctld
+- vitess.vtgate
+- vitess.vtorc
