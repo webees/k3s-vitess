@@ -6111,13 +6111,6 @@ kind: Deployment
 metadata:
   name: vitess-operator
 spec:
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: vitess.vtorc
-                operator: Exists
   replicas: 1
   selector:
     matchLabels:
@@ -6160,6 +6153,13 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: vitess.vtorc
+                        operator: Exists
       priorityClassName: vitess-operator-control-plane
       serviceAccountName: vitess-operator
 ---
