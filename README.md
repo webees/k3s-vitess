@@ -14,6 +14,7 @@ cd k3s-vitess
 # Install the Operator
 kubectl create namespace vitess
 kubectl apply -n vitess -f operator.yaml
+kubectl apply -n vitess -f config.yaml
 cat initial.yaml | sed -e 's/vtadmin.dev.run/vtadmin.xx.xx/g' | kubectl apply -n vitess -f -
 
 # Get Keyspaces
