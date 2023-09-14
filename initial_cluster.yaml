@@ -1,17 +1,17 @@
 apiVersion: planetscale.com/v2
 kind: VitessCluster
 metadata:
-  name: example
+  name: vitess
 spec:
   images:
-    vtctld: vitess/lite:latest
+    vtctld: vitess/lite:mysql80
     vtadmin: vitess/vtadmin:latest
-    vtgate: vitess/lite:latest
-    vttablet: vitess/lite:latest
-    vtbackup: vitess/lite:latest
-    vtorc: vitess/lite:latest
+    vtgate: vitess/lite:mysql80
+    vttablet: vitess/lite:mysql80
+    vtbackup: vitess/lite:mysql80
+    vtorc: vitess/lite:mysql80
     mysqld:
-      mysql80Compatible: vitess/lite:latest
+      mysql80Compatible: vitess/lite:mysql80
     mysqldExporter: prom/mysqld-exporter:v0.11.0
   cells:
   - name: zone1
@@ -19,7 +19,7 @@ spec:
       authentication:
         static:
           secret:
-            name: example-cluster-config
+            name: vitess-cluster-config
             key: users.json
       replicas: 1
       resources:
@@ -42,12 +42,12 @@ spec:
         memory: 128Mi
   vtadmin:
     rbac:
-      name: example-cluster-config
+      name: vitess-cluster-config
       key: rbac.yaml
     cells:
       - zone1
     apiAddresses:
-      - http://localhost:14001
+      - https://vtadmin.dev.run
     replicas: 1
     readOnly: false
     apiResources:
@@ -64,7 +64,7 @@ spec:
         memory: 128Mi
 
   keyspaces:
-  - name: commerce
+  - name: default
     durabilityPolicy: none
     turndownPolicy: Immediate
     vitessOrchestrator:
@@ -81,7 +81,7 @@ spec:
         parts: 1
         shardTemplate:
           databaseInitScriptSecret:
-            name: example-cluster-config
+            name: vitess-cluster-config
             key: init_db.sql
           tabletPools:
           - cell: zone1
@@ -114,14 +114,14 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: example-cluster-config
+  name: vitess-cluster-config
 type: Opaque
 stringData:
   users.json: |
     {
       "user": [{
-        "UserData": "user",
-        "Password": ""
+        "UserData": "vitess",
+        "Password": "vitess"
       }]
     }
   init_db.sql: |
