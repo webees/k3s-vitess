@@ -54,35 +54,6 @@ spec:
             - matchExpressions:
                 - key: vitess.vtctld
                   operator: Exists
-  vtadmin:
-    rbac:
-      name: vitess-cluster-config
-      key: rbac.yaml
-    cells:
-      - zone1
-    apiAddresses:
-      - https://vtadmin.dev.run
-    replicas: 1
-    readOnly: false
-    apiResources:
-      limits:
-        memory: 128Mi
-      requests:
-        cpu: 100m
-        memory: 128Mi
-    webResources:
-      limits:
-        memory: 128Mi
-      requests:
-        cpu: 100m
-        memory: 128Mi
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: vitess.vtadmin
-                  operator: Exists
 
   keyspaces:
   - name: default
