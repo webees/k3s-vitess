@@ -4,14 +4,14 @@ metadata:
   name: vitess
 spec:
   images:
-    vtctld: vitess/lite:mysql80
+    vtctld: vitess/lite:latest
     vtadmin: vitess/vtadmin:latest
-    vtgate: vitess/lite:mysql80
-    vttablet: vitess/lite:mysql80
-    vtbackup: vitess/lite:mysql80
-    vtorc: vitess/lite:mysql80
+    vtgate: vitess/lite:latest
+    vttablet: vitess/lite:latest
+    vtbackup: vitess/lite:latest
+    vtorc: vitess/lite:latest
     mysqld:
-      mysql80Compatible: vitess/lite:mysql80
+      mysql80Compatible: vitess/lite:latest
     mysqldExporter: prom/mysqld-exporter:v0.11.0
   cells:
   - name: zone1
@@ -40,6 +40,13 @@ spec:
       requests:
         cpu: 100m
         memory: 128Mi
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: vitess.admin
+                  operator: Exists
   vtadmin:
     rbac:
       name: vitess-cluster-config
@@ -62,6 +69,13 @@ spec:
       requests:
         cpu: 100m
         memory: 128Mi
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: vitess.admin
+                  operator: Exists
 
   keyspaces:
   - name: default
@@ -86,7 +100,7 @@ spec:
           tabletPools:
           - cell: zone1
             type: replica
-            replicas: 2
+            replicas: 3
             vttablet:
               extraFlags:
                 db_charset: utf8mb4
@@ -119,7 +133,7 @@ type: Opaque
 stringData:
   users.json: |
     {
-      "user": [{
+      "vitess": [{
         "UserData": "vitess",
         "Password": "vitess"
       }]
