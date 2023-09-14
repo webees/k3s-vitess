@@ -5,6 +5,8 @@ metadata:
 spec:
   images:
     vtadmin: vitess/vtadmin:latest
+  cells:
+  - name: zone1
   vtadmin:
     rbac:
       name: vitess-cluster-config
