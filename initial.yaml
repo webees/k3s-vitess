@@ -28,6 +28,13 @@ spec:
           memory: 256Mi
         limits:
           memory: 256Mi
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: vitess.vtgate
+                    operator: Exists
   vitessDashboard:
     cells:
     - zone1
@@ -45,7 +52,7 @@ spec:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: vitess.admin
+                - key: vitess.vtctld
                   operator: Exists
   vtadmin:
     rbac:
@@ -74,7 +81,7 @@ spec:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: vitess.admin
+                - key: vitess.vtadmin
                   operator: Exists
 
   keyspaces:
