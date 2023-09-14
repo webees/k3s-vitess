@@ -5,7 +5,6 @@ metadata:
 spec:
   images:
     vtctld: vitess/lite:latest
-    vtadmin: vitess/vtadmin:latest
     vtgate: vitess/lite:latest
     vttablet: vitess/lite:latest
     vtbackup: vitess/lite:latest
