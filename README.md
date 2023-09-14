@@ -15,8 +15,9 @@ cd k3s-vitess
 kubectl create namespace vitess
 kubectl apply -n vitess -f operator.yaml
 kubectl apply -n vitess -f config.yaml
-cat vtadmin.yaml | sed -e 's/vtadmin.dev.run/vtadmin.xx.xx/g' | kubectl apply -n vitess -f -
 kubectl apply -n vitess -f keyspaces.yaml
+cat vtadmin.yaml | sed -e 's/vtadmin.dev.run/vtadmin.xx.xx/g' | kubectl apply -n vitess -f -
+
 
 # Get Keyspaces
 vtctldclient GetKeyspaces --server=$(kubectl get svc -n vitess | grep vitess-vtctld | awk '{print $3}'):15999
