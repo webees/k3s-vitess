@@ -7,23 +7,23 @@ spec:
     vtgate: vitess/lite:latest
   cells:
     - name: zone1
-  gateway:
-    authentication:
-      static:
-        secret:
-          name: vitess-cluster-config
-          key: users.json
-    replicas: 1
-    resources:
-      requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        memory: 256Mi
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: vitess.vtgate
-                  operator: Exists
+    gateway:
+      authentication:
+        static:
+          secret:
+            name: vitess-cluster-config
+            key: users.json
+      replicas: 1
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+        limits:
+          memory: 256Mi
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: vitess.vtgate
+                    operator: Exists
