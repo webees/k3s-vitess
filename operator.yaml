@@ -6120,6 +6120,13 @@ spec:
       labels:
         app: vitess-operator
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: vitess.operator
+                    operator: Exists
       containers:
         - args:
             - --logtostderr
@@ -6153,13 +6160,6 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: vitess.operator
-                        operator: Exists
       priorityClassName: vitess-operator-control-plane
       serviceAccountName: vitess-operator
 ---
