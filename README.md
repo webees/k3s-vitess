@@ -15,8 +15,7 @@ cd k3s-vitess
 kubectl create namespace vitess
 kubectl apply -n vitess -f operator.yaml
 kubectl apply -n vitess -f config.yaml
-kubectl apply -n vitess -f keyspaces.yaml
-cat vtadmin.yaml | sed -e 's/vtadmin.dev.run/vtadmin.xx.xx/g' | kubectl apply -n vitess -f -
+cat initial.yaml | sed -e 's/vtadmin.dev.run/vtadmin.xx.xx/g' | kubectl apply -n vitess -f -
 
 
 # Get Keyspaces
@@ -26,8 +25,8 @@ vtctldclient GetKeyspaces --server=$(kubectl get svc -n vitess | grep vitess-vtc
 mysql -h $(kubectl get svc -n vitess | grep vitess-vtgate | awk '{print $3}') -P 3306 -u vitess -pvitess -e "show databases"
 
 # Delete
-kubectl delete -n vitess -f operator.yaml
 kubectl delete -n vitess -f initial.yaml
+kubectl delete -n vitess -f operator.yaml
 ```
 
 # Tag
